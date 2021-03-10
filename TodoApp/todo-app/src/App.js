@@ -10,14 +10,28 @@ function App() {
   const [todoInput, setTodoInput] = useState("");
   const [date, setDate] = useState("");
 
+  const [isInputInRange, setIsInputInRange] = useState(true);
 
-  
   let val = "";
   //console.log(todoInput);
 
   const handleChange = (e) => {
     setTodoInput((prev) => (prev = e.target.value));
   };
+
+  const controlTodoInputLenght = () => {
+    if (todoInput.length > 20) {
+      setIsInputInRange((prev) => (prev = false));
+      //console.log({inputIsInRange});
+    } else {
+      setIsInputInRange((prev) => (prev = true));
+    }
+  };
+  useEffect(() => {
+    controlTodoInputLenght();
+    // console.log({isInputInRange});
+  }, [todoInput]);
+
   const generateRandomId = (maxValue) => {
     return Math.floor(Math.random() * maxValue) + 1;
   };
@@ -28,11 +42,13 @@ function App() {
       text: todoInput,
     });
 
-    console.log("girdi");
+    //console.log("girdi");
   };
   const addTodo = (todo) => {
     if (todo.text === "") {
       alert("item giriniz");
+    } else if (!isInputInRange) {
+      alert("Max karakter sayısını aştınız!");
     } else {
       setTodos([todo, ...todos]);
       //console.log([todo, ...todos]);
@@ -41,6 +57,29 @@ function App() {
       val = todo;
     }
   };
+  useEffect(() => {
+    const li = document.querySelectorAll(".todo-form-container li");
+    let rotateVal = 0;
+    if (li.length > 0) {
+      console.log(li[0].children[0].children[0]);
+    }
+    const rotate = () => {
+      const interval = setInterval(() => {
+        if (rotateVal >= 810) {
+          clearInterval(interval);
+          rotateVal = 0;
+          li[0].style.transform = `rotate(${rotateVal}deg)`;
+        } else {
+          rotateVal += 1;
+
+          li[0].style.transform = `rotate(${rotateVal}deg)`;
+        }
+      }, 10);
+    };
+    if (li.length > 0) {
+      rotate();
+    }
+  }, [todos]);
 
   //   const formOnSubmit=(e)=>{
   // e.preventDefault();
@@ -66,6 +105,13 @@ function App() {
 
   //console.log({todos:todos})
 
+  // const updateTodo=(todoId,newValue)=>{
+  //   setTodos( (prev) => {
+  //     return ( prev.map( (item) =>{
+  //       return (item.id === todoId?newValue:item);
+  //     } ));
+  //   } );
+  // }
   return (
     <>
       <MainSection />
@@ -79,6 +125,8 @@ function App() {
           val,
           handleSubmit,
           deleteTodo,
+          isInputInRange,
+          setTodos,
         }}
       >
         <TodoList />
