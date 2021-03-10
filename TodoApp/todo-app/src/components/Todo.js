@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import {AiFillDelete} from 'react-icons/ai';
 import { TodoContext } from '../App';
 
@@ -6,7 +6,9 @@ const Todo = ({item,deleteTodo,todoId}) => {
 
     const {date} = useContext(TodoContext);
 
-
+    useEffect( ()=>{
+        
+    },[] );
     //console.log({index})
     
     console.log({todoId});
