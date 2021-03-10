@@ -12,6 +12,7 @@ function App() {
 
   const [isInputInRange, setIsInputInRange] = useState(true);
 
+  const [isNewItem,setIsNewItem] = useState(false);
   let val = "";
   //console.log(todoInput);
 
@@ -55,6 +56,7 @@ function App() {
       setTodoInput("");
       setDate((prev) => (prev = getDate()));
       val = todo;
+      setIsNewItem(true);
     }
   };
   useEffect(() => {
@@ -78,8 +80,9 @@ function App() {
     };
     if (li.length > 0) {
       rotate();
+      setIsNewItem(false);
     }
-  }, [todos]);
+  }, [isNewItem]);
 
   //   const formOnSubmit=(e)=>{
   // e.preventDefault();
@@ -101,6 +104,7 @@ function App() {
   };
   useEffect(() => {
     setTodoInput("");
+
   }, [todos]);
 
   //console.log({todos:todos})
